@@ -10,7 +10,7 @@ Barbara Caputoa
 
 Politecnico di Torino
 
-![Project Illustration](content/teaser_ral.pdf) <!-- Replace with actual image path after uploading -->
+![Project Illustration](content/teaser_ral-1.png) <!-- Replace with actual image path after uploading -->
 
 ## Abstract
 
