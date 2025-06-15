@@ -36,7 +36,7 @@ The code is **not yet cleaned**, and final components are subject to change.
 Stay tuned for updates and a stable release.
 
 ---
-
+<!-- 
 ## Data
 
 | Dataset                | Link                                                                 |
@@ -49,4 +49,4 @@ Stay tuned for updates and a stable release.
 ## Citation
 
 <!-- If you use this code or ideas from the paper, please cite our work: -->
-
+ -->
