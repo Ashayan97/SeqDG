@@ -22,8 +22,6 @@ def mixup_data(x, y, alpha=1.0):
     if isinstance(y, dict):
         y_a = {}
         y_b = {}
-        # y_a = torch.tensor(y_a).to('cuda')
-        # y_b = torch.tensor(y_b).to('cuda')
         y_a['verb'], y_b['verb'] = y['verb'], y['verb'][index]
         y_a['noun'], y_b['noun'] = y['noun'], y['noun'][index]
     else:

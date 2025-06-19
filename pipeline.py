@@ -10,7 +10,7 @@ import numpy as np
 from mixup import mixup_data, mixup_criterion, mixup_data_pipeline
 from utils import accuracy, multitask_accuracy, save_checkpoint, AverageMeter, text_feature_generator
 from general_pipeline import General_Encoder_Decoder
-from data_sets import EpicKitchens, egtea, EpicKitchensEndAction
+from data_sets import EpicKitchens, egtea
 
 parser = argparse.ArgumentParser(description=('Train Multimodal Audio Text Encoder Decoder on Sequence ' +
                                               'of actions from untrimmed video'))
@@ -84,16 +84,18 @@ torch.cuda.set_device(args.cuda_core)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu", args.cuda_core)
 device = torch.device(device)
 
+
+
+# Loading the dataset
 if args.dataset == 'epic':
     _NUM_CLASSES = [97, 300]
     _DATASETS = EpicKitchens
-    #_DATASETS = EpicKitchensEndAction
 elif args.dataset == 'egtea':
     _NUM_CLASSES = 106
     _DATASETS = egtea
-elif args.dataset == 'epic55':
-    _NUM_CLASSES = 8
-    #_DATASETS = EpicKitchens55
+# elif args.dataset == 'epic55':
+#     _NUM_CLASSES = 8
+#     _DATASETS = EpicKitchens55
 
 
 torch.autograd.set_detect_anomaly(True)
@@ -104,10 +106,9 @@ def main():
 
     np.random.seed(0)
     torch.manual_seed(0)
-    text_use = True
-    if args.loss_impacts[1] <= 0:
-        text_use = False
 
+
+    # Loading the main model 
     model = General_Encoder_Decoder(_NUM_CLASSES,
                                     seq_len=args.seq_len,
                                     num_clips=args.seg_number,
@@ -124,9 +125,8 @@ def main():
 
     model = model.to(device)
 
-    total_param = sum(p.numel() for p in model.parameters())
 
-    print(f"The total number of parameters are {total_param}")
+    # wandb setup
     if not args.disable_wandb_log:
         wandb.init(project=str(args.project_name),
                    name=str(args.running_name),
@@ -134,10 +134,13 @@ def main():
         wandb.watch(model)
         wandb.watch(model.video_encoder)
 
+    
     if args.classification_mode == 'all':
         center_classification = False
     else:
         center_classification = True
+    
+    #loading the dataload and dataset
     dataset = _DATASETS
     train_loader = torch.utils.data.DataLoader(
         dataset(args.seg_number,
@@ -210,9 +213,7 @@ def main():
             float(cnt_time) / (epoch + 1)))
     print(best_message)
     print(args)
-    #cnt_time = time.time() - proc_start_time
-    #print('The average training time per epoch is {} sec/video'.format(
-            #float(cnt_time) / (epoch + 1)))
+
 
 
 def train(train_loader, model, criterion_text, criterion_classifier, criterion_vision, optimizer, epoch, device):
@@ -339,12 +340,10 @@ def train(train_loader, model, criterion_text, criterion_classifier, criterion_v
 
                 loss_classifier = criterion_classifier(output_classifier, label)
 
-       # import pdb; pdb.set_trace()
+
         loss_vision = criterion_vision(output_video,
                                        presentation_labels.reshape(batch_size, presentation_labels.shape[2]))
 
-        #loss_vision = criterion_vision(output_video,
-        #                presentation_labels.cuda())
         loss = args.loss_impacts[0] * loss_vision + args.loss_impacts[1] * loss_text + args.loss_impacts[
             2] * loss_classifier
 
@@ -486,8 +485,6 @@ def validation(val_loader, model, criterion_classifier, device):
                 top5.update(prec5, batch_size)
             else:
                 label = label.to(device)
-                # import pdb;
-                # pdb.set_trace()
                 loss_classifier = criterion_classifier(output_classifier, label)
                 action_losses.update(loss_classifier.item(), batch_size)
 
@@ -550,16 +547,6 @@ def validation(val_loader, model, criterion_classifier, device):
 
 
 if __name__ == '__main__':
-#    seq_len = 5
-#    modalities = [['rgb','flow','audio']]
-#    name = str(args.running_name) + '_seq_len_5'
-#    for modal in modalities:
-#        args.seq_len = seq_len
-#        modal_name = ''
-#        for m in modal:
-#            modal_name = '_'+ m
-#        args.modalities = modal
-#        args.running_name = name + modal_name
     main()
     wandb.finish()
 

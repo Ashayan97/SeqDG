@@ -405,10 +405,7 @@ class EpicKitchensEndAction(data.Dataset):
             sequence_narration_ids[swapping_index] = self.find_swap_video(verbs[swapping_index],
                                                                           nouns[swapping_index], pid)
        
-        #print(narration_id)
-        #print(sequence_narration_ids)
-        #print(verbs)
-        #print(nouns)
+
         if self.center_classification:
             label = {'verb': verbs[-1].unsqueeze(0)[0], 'noun': nouns[-1].unsqueeze(0)[0]}
         else:
