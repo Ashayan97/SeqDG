@@ -68,7 +68,6 @@ class video_encoder(nn.Module):
     def representation(self, inputs):
         x = torch.zeros((inputs.size(0), self.seq_len ,self.d_model * len(self.modalities))).cuda()
         for modal_idx in range(len(self.modalities)):
-            # self.aggregation[modal_idx].cuda()
             x[:,:,modal_idx * self.d_model:(modal_idx + 1) * self.d_model ] = self.aggregation[self.modalities[modal_idx]](inputs[:,modal_idx,:,:,:].reshape(inputs.size(0),self.seq_len,self.num_clips,-1))
         
         x = self.feature_embedding(x)
@@ -76,19 +75,16 @@ class video_encoder(nn.Module):
         return x
 
     def forward(self, inputs, encode_label=False):
+
         if encode_label:
             with torch.no_grad():
-                # encode_space = self.representation(
-                #     inputs.view(inputs.size(0), self.seq_len, self.num_clips, -1)[:, self.seq_len // 2, :, :].view(
-                #         inputs.size(0), 1, self.num_clips, -1))
                 encode_space = self.representation(inputs.view(inputs.size(0), len(self.modalities), self.seq_len, self.num_clips, -1))[self.seq_len // 2,:, :]
                 encode_space = encode_space.transpose(0, 1).contiguous()
                 encode_space = encode_space.reshape(inputs.size(0),1,  -1)
                 return encode_space
+
         else:
-            #inputs = self.dropout_layer1(inputs)
             x_out = self.representation(inputs.view(inputs.size(0), len(self.modalities),self.seq_len, self.num_clips, -1))
-            # with torch.no_grad():
 
             return x_out
 

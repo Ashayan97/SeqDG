@@ -57,18 +57,19 @@ class General_Encoder_Decoder(nn.Module):
         # Video decoder to reconstruct the video features
         self.video_decoder_layer = TransformerDecoderLayer(d_model=self.d_model, nhead=self.nhead)
 
-        self.decoder_pose_video = PositionalEncoding(self.d_model)
+        #self.decoder_pose_video = PositionalEncoding(self.d_model)
 
-        # self.decoder_pose_video = FeatureEmbedding(self.seq_len,
-        #                                            1,
-        #                                            768,
-        #                                            768,
-        #                                            True)
+        self.decoder_pose_video = FeatureEmbedding(self.seq_len,
+                                                    1,
+                                                    768,
+                                                    768,
+                                                    True)
 
         self.video_decoder = TransformerDecoder(self.video_decoder_layer, num_layers=self.num_layers)
 
         self.video_decoder_linear_layer = nn.Linear(self.d_model, self.d_model)
-        # Text encoder to provide embeddings space it is pre trained
+        
+        # Text encoder to provide embeddings space it is pre-trained
         self.text_position_feature = FeatureEmbedding(self.seq_len,
                                                       1,
                                                       768,
@@ -89,7 +90,7 @@ class General_Encoder_Decoder(nn.Module):
 
         self.text_decoder = TransformerDecoder(self.text_decoder_layer, num_layers=self.num_layers)
 
-        # self.dropout_layer = nn.Dropout(self.dropout)
+        self.dropout_layer = nn.Dropout(self.dropout)
 
         # Classifier
         if self.dataset == 'epic':
@@ -101,17 +102,6 @@ class General_Encoder_Decoder(nn.Module):
             self.text_decoder_layer_prediction = nn.Linear(768, self.num_class)
             self.action = nn.Linear(self.d_model, self.num_class)
 
-    # def set_encoder(self, feature_embedding, transformer_encoder):
-    #     self.video_encoder = video_encoder(self.num_class,
-    #                                        seq_len=self.seq_len,
-    #                                        num_clips=self.num_clips,
-    #                                        visual_input_dim=self.visual_input_dim,
-    #                                        d_model=self.d_model,
-    #                                        dim_feedforward=self.dim_feedforward,
-    #                                        nhead=self.nhead,
-    #                                        num_layers=self.num_layers,
-    #                                        dropout=self.dropout)
-    #     self.video_encoder.set_encoder(transformer_encoder, feature_embedding)
 
     def masking(self, feature_vector, mask_location):
         f = feature_vector.clone()
@@ -122,8 +112,8 @@ class General_Encoder_Decoder(nn.Module):
         f = torch.zeros(feature_vector.shape)
         for i in range(f.shape[1]):
             if i != mask_location:
-                f[:, i, :] = feature_vector[:, i, :]
-
+                f[:, i, :] = feature_vector[:, i, :].clone()
+        return f
 
     def forward(self, visual_inputs, text_inputs):
         # videos features
@@ -159,24 +149,18 @@ class General_Encoder_Decoder(nn.Module):
                 output_classifier = output
 
             # video decoder output
-            # import pdb;
-            # pdb.set_trace()
-            # with torch.no_grad():
-            x_video_masked = self.masking(x_video[:, :range_index, :], self.seq_len // 2)
-
-            x_video_masked = x_video_masked.cuda() + self.decoder_pose_video(self.pos.cuda())
-            # x_video_masked = self.decoder_pose_video(x_video_masked.cuda())
-            # x_video_masked = x_video_masked.transpose(0, 1).contiguous()
-            y_video = self.video_decoder(x_video_masked, x_text)
+            x_video_masked = self.visual_masking(x_video[:, :range_index, :], self.seq_len // 2)
+            x_video_masked = self.decoder_pose_video(x_video_masked.cuda())
+            x_video_masked = x_video_masked.transpose(0, 1).contiguous()
+            y_video = self.video_decoder(x_video_masked, torch.cat((x_text, x_text[:, self.seq_len // 2, :].reshape(x_text.shape[0], 1, x_text.shape[2])), dim=1))
 
             # text output decoder
-            # with torch.no_grad():
             x_text_masked = self.masking(x_text, self.seq_len // 2)
             x_text_masked = x_text_masked.cuda() + self.decoder_pose_text(self.pos.cuda())
             y_text = self.text_decoder(x_text_masked, x_video[:, :range_index, :])
             y_text = self.text_decoder_layer_prediction(y_text)
 
-            return y_text[:, self.seq_len // 2, :], y_video[:, self.seq_len // 2, :], output_classifier
+            return y_text[:, self.seq_len // 2, :], y_video[:, -1, :], output_classifier
 
         else:
             if self.dataset == 'epic':
