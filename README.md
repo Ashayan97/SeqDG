@@ -27,6 +27,34 @@ We validate SeqDG on the **EGTEA** and **EPIC-KITCHENS-100** datasets.
 - On **EPIC-KITCHENS-100**, SeqDG leads to **+2.4%** relative average improvement in cross-domain action recognition in unseen environments.
 - On **EGTEA**, SeqDG achieves **+0.6% Top-1 accuracy** over the SOTA in intra-domain action recognition.
 
+
+--- 
+## Data<>
+
+
+--- 
+## Data
+
+In this work, we used pre-trained features extracted from different backbones. In the table below, you can download and use the extracted features that were used to train this model.
+
+
+| Dataset                                                              | Backbone                                                | Link                                                                |
+|----------------------------------------------------------------------|---------------------------------------------------------|---------------------------------------------------------------------|
+| [EPIC-KITCHENS-100 Dataset](https://epic-kitchens.github.io/2020)    | [TSN-TRN](https://arxiv.org/abs/1608.00859)             |[GoogleDrive](https://drive.google.com/drive/folders/1fjdedyTsKmMx2KWtLGM9SJxOm3GwvSwq?usp=drive_link)    |
+| [EPIC-KITCHENS-100 Dataset](https://epic-kitchens.github.io/2020)    | [I3D-TRN](https://arxiv.org/abs/1705.07750)             |[GoogleDrive](https://drive.google.com/drive/folders/1g-Qsfx9X2n9Ma6g7f18o3UpxFPebjpjK?usp=drive_link)    |
+| [EPIC-KITCHENS-100 Dataset](https://epic-kitchens.github.io/2020)    | [TSM-TRN](https://ieeexplore.ieee.org/document/9008827) |[GoogleDrive](https://drive.google.com/drive/folders/1Uxzndxf6tITf0z6wskP14HvlXGFK2gO6?usp=drive_link)    |
+| [EPIC-KITCHENS-100 Dataset](https://epic-kitchens.github.io/2020)    | [TBN-TRN](https://arxiv.org/abs/1908.08498)             |[GoogleDrive](https://drive.google.com/drive/folders/1-2JFB1-OpikRU7WjziR8HjhmU4bg0YcS?usp=drive_link)    |
+| [EGTEA Dataset](https://cbs.ic.gatech.edu/egtea/)                    | [SlowFast-TRN](https://arxiv.org/abs/1812.03982)        | ⚠️ To be Uploaded                   |
+
+For text we used the extracted features from the BERT model, you can download the features from here ([GoogleDrive](https://drive.google.com/drive/folders/1m9SdJqKy_xgRz3Q1cCpvRa8gVvbfuQAT?usp=drive_link)).
+
+---
+
+## Citation
+
+If you use this code or ideas from the paper, please cite our work:
+
+
 ---
 
 ## ⚠️ Warning
@@ -36,17 +64,3 @@ The code is **not yet cleaned**, and final components are subject to change.
 Stay tuned for updates and a stable release.
 
 ---
-<!-- 
-## Data
-
-| Dataset                | Link                                                                 |
-|------------------------|----------------------------------------------------------------------|
-| EPIC-KITCHENS-100      | [EPIC-KITCHENS-100 Dataset](https://epic-kitchens.github.io/2020)    |
-| EGTEA Gaze+ Dataset    | [EGTEA Dataset](https://cbs.ic.gatech.edu/egtea/)                   |
-
----
-
-## Citation
-
-<!-- If you use this code or ideas from the paper, please cite our work: -->
- -->
