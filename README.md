@@ -2,7 +2,7 @@
 ### [Politecnico di Torino](https://www.polito.it/)
 ### [The Visual And Multimodal Applied Learning Laboratory](https://vandal.polito.it/)
 **Contributors**  
-[Amirshayan Nasirimajd](https://ashayan97.github.io/),  [Chiara Plizzari](https://chiaraplizz.github.io/),   [Simone Alberto Peirone](https://www.linkedin.com/in/simone-peirone), [Marco Ciccone](https://marcociccone.github.io/),   [Giuseppe Averta](https://www.linkedin.com/in/giuseppe-averta-b8b21788/),    [Barbara Caputo](https://vandal.polito.it/index.php/people/index.php/people/barbaracaputo/)  
+[Amirshayan Nasirimajd](https://ashayan97.github.io/),  [Chiara Plizzari](https://chiaraplizz.github.io/),   [Simone Alberto Peirone](https://sapeirone.github.io/), [Marco Ciccone](https://marcociccone.github.io/),   [Giuseppe Averta](https://www.linkedin.com/in/giuseppe-averta-b8b21788/),    [Barbara Caputo](https://vandal.polito.it/index.php/people/index.php/people/barbaracaputo/)  
 
 
 ![Project Illustration](content/teaser_ral-1.png) <!-- Replace with actual image path after uploading -->
@@ -96,7 +96,6 @@ If you use this code or ideas from the paper, please cite our work:
 ## ⚠️ Warning
 
 This repository is still under development.  
-The code is **not yet cleaned**, and final components are subject to change.  
-Stay tuned for updates and a stable release.
+The code is **not yet cleaned**, and final components are subject to change.
 
 ---
