@@ -1,6 +1,6 @@
 # Domain Generalization using Action Sequences for Egocentric Action Recognition
 ### [Politecnico di Torino](https://www.polito.it/)
-### [the Visual And Multimodal Applied Learning Laboratory](https://vandal.polito.it/)
+### [The Visual And Multimodal Applied Learning Laboratory](https://vandal.polito.it/)
 **Contributors**  
 [Amirshayan Nasirimajd](https://ashayan97.github.io/),  [Chiara Plizzari](https://chiaraplizz.github.io/),   [Simone Alberto Peirone](https://www.linkedin.com/in/simone-peirone), [Marco Ciccone](https://marcociccone.github.io/),   [Giuseppe Averta](https://www.linkedin.com/in/giuseppe-averta-b8b21788/),    [Barbara Caputo](https://vandal.polito.it/index.php/people/index.php/people/barbaracaputo/)  
 
