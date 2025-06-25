@@ -89,11 +89,14 @@ python3 pipeline.py \
 ## Citation
 
 ```
-@article{nasirimajd2025dg,
-  title={Domain Generalization using Action Sequences for Egocentric Action Recognition}, 
-  author={Amirshayan Nasirimajd and Chiara Plizzari and Simone Alberto Peirone and Marco Ciccone and Giuseppe Averta and Barbara Caputo},
-  journal={arXiv preprint arXiv:2506.17685},
-  year={2025}
+@article{NASIRIMAJD2025,
+title = {Domain generalization using action sequences for egocentric action recognition},
+journal = {Pattern Recognition Letters},
+year = {2025},
+issn = {0167-8655},
+doi = {https://doi.org/10.1016/j.patrec.2025.06.010},
+url = {https://www.sciencedirect.com/science/article/pii/S0167865525002387},
+author = {Amirshayan Nasirimajd and Chiara Plizzari and Simone Alberto Peirone and Marco Ciccone and Giuseppe Averta and Barbara Caputo}
 }
 ```
 
